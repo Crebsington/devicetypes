@@ -1,5 +1,5 @@
 metadata {
- 	definition (name: "Alarm On/Off Button Tile", namespace: "Alarm", author: "adapted from 949BFN") {
+ 	definition (name: "Alarm On/Off Button Tile Kyles", namespace: "Alarm", author: "Kyle Crebs") {
  		capability "Actuator"
  		capability "Switch"
  		capability "Sensor"
