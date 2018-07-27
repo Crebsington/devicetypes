@@ -11,6 +11,9 @@ metadata {
         attribute "Friday", "string"
         attribute "Saturday", "string"
         attribute "Sunday", "string"
+        attribute "SetByA", "string"        
+        attribute "AllowAppTime", "string"
+        attribute "NotifyText", "string"
         command "changeAlarmTime"
         command "Monday_On"
         command "Monday_Off"
@@ -26,10 +29,16 @@ metadata {
         command "Saturday_Off"
         command "Sunday_On"
         command "Sunday_Off"
+        command "SetByC"    
+        command "AllowAppTime_On"
+        command "AllowAppTime_Off"        
      }
      preferences {
      input name: "timer", type: "time", title: "Alarm Time", description: "Enter Time", required: false
+     }
+     input name: "NotifyText", type: "string", title: "Enter Notification", description: "Enter Notification", required: false, defaultValue: "Note"
  	}
+    
 
  	// UI tile definitions
  	tiles {
@@ -42,7 +51,17 @@ metadata {
  		valueTile("alarm", "device.alarm", width: 6, height: 3) {
  			state "default", label:'${currentValue}',backgroundColor: "#00A0DC"
  		}
-        standardTile("Monday", "device.Monday",canChangeIcon: true, width: 6, height: 1) {
+		valueTile("SetByA", "device.SetByA", width: 6, height: 2, canChangeBackground: true) {
+ 			state "default", label:'${currentValue}'
+ 		}
+        valueTile("NotifyText", "device.NotifyText", width: 6, height: 1, canChangeBackground: true) {
+ 			state "default", label:'${currentValue}'
+ 		}
+        standardTile("AllowAppTime", "device.AllowAppTime",canChangeIcon: true, width: 6, height: 1) {
+		state "on", label: "AllowAppTime", action: "AllowAppTime_Off", icon: "st.Office.office6", backgroundColor: "#00A0DC"
+		state "off", label: "AllowAppTime", action: "AllowAppTime_On", icon: "st.Office.office6", backgroundColor: "#ffffff"
+    }
+		standardTile("Monday", "device.Monday",canChangeIcon: true, width: 6, height: 1) {
 		state "on", label: "Monday", action: "Monday_Off", icon: "st.Office.office6", backgroundColor: "#00A0DC"
 		state "off", label: "Monday", action: "Monday_On", icon: "st.Office.office6", backgroundColor: "#ffffff"
     }
@@ -71,9 +90,9 @@ metadata {
 		state "off", label: "Sunday", action: "Sunday_On", icon: "st.Office.office6", backgroundColor: "#ffffff"
     }
  		main(["switch","alarm"])
- 		details(["switch","alarm","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"])
+ 		details(["switch","alarm","AllowAppTime","SetByA","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","NotifyText"])
  	}
- }
+ 
  def parse() {
  }
  def updated() {
@@ -149,3 +168,14 @@ def Sunday_On(){
  def Sunday_Off(){
  sendEvent(name:"Sunday",value:"off")
  } 
+ def SetByC (param1) {
+    sendEvent("name":"SetByA", "value":param1)
+}
+def AllowAppTime_On(){
+ 	sendEvent(name:"AllowAppTime",value:"on")
+ }
+ def AllowAppTime_Off(){
+ 	sendEvent(name:"AllowAppTime",value:"off")
+ } 
+
+             
